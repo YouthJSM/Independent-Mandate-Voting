@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Independent Mandate – Voting App</title>
+<meta name="theme-color" content="#1B1216">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@400;500;600&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><img src="icon-192.png" alt=""><div><span>INDEPENDENT</span><b>MANDATE</b></div></div>
+  <span class="demo"><i></i>DEMO SIMULATION</span>
+  <select id="lang" aria-label="Language (reading voice)"><option value="en">English</option><option value="zu">isiZulu</option><option value="xh">isiXhosa</option><option value="af">Afrikaans</option><option value="nso">Sepedi</option><option value="tn">Setswana</option><option value="st">Sesotho</option><option value="ts">Xitsonga</option><option value="ss">siSwati</option><option value="ve">Tshivenda</option><option value="nr">isiNdebele</option></select>
+</header>
+
+<main>
+  <div class="bar"><button id="hBack" class="tbtn" hidden></button><button id="readBtn" class="tbtn" hidden>🔊 Read aloud</button></div>
+  <p class="eyebrow">CITY OF JOHANNESBURG · MUNICIPAL ELECTION</p>
+  <h1 id="pageTitle" class="ptitle">VOTER VERIFICATION</h1>
+  <ol class="stepper" aria-label="Progress">
+    <li class="stp on"><span>01</span><em>Verify</em></li><li class="stp"><span>02</span><em>Ward</em></li><li class="stp"><span>03</span><em>Party</em></li><li class="stp"><span>04</span><em>Review</em></li><li class="stp"><span>05</span><em>Receipt</em></li>
+  </ol>
+
+  <section id="hero" class="hero">
+    <p class="eyebrow gold">YOUR VOICE. YOUR CHOICE.</p>
+    <h2>A CLEAR PATH<br>TO YOUR <em>MANDATE.</em></h2>
+    <p class="lead">Take your time. Verify your details, make each choice privately, then review before you seal your ballot.</p>
+    <div class="note"><span>01</span><div><b>Your ballot is detached from your ID.</b><p>Your identity is checked for eligibility; your choices are not displayed on this screen.</p></div></div>
+  </section>
+
+  <!-- 01 -->
+  <section id="s1" class="step panel">
+    <div class="phead"><div><p class="tag">01 / CHECK IN</p><h2>VOTER DETAILS</h2></div><span class="chip">ELIGIBLE</span></div>
+    <div class="status"><span>✓</span><div><b>Eligible and not yet voted</b><small>Voters' roll status</small></div></div>
+    <dl id="voterDl"></dl>
+    <h3 class="sc">CONFIRM IT IS YOU</h3>
+    <button id="scanBtn" class="rowbtn"><span class="ib"><svg viewBox="0 0 24 24" class="ico"><path d="M12 3a7 7 0 0 0-7 7v3M12 7a3 3 0 0 0-3 3v6M12 11v7M16 10v3a8 8 0 0 1-2 5M19 11v2"/></svg></span><span class="rt"><b>Simulate fingerprint / Face ID</b><small>A biometric reader is not connected in this demo.</small></span><span class="arr">→</span></button>
+    <p id="scanMsg" role="status" class="msg"></p>
+    <p id="otpLbl" class="lbl">Enter the 6-digit SMS code</p>
+    <div id="otp" class="otp" role="group" aria-labelledby="otpLbl"></div>
+    <p id="demoHint" class="hint"></p>
+    <p id="unlockMsg" role="status" class="msg"></p>
+    <button id="unlock" class="btn" disabled>Unlock secret voting booth →</button>
+    <p class="disc">Verification is simulated. This demonstration is not a secure or production-ready election system.</p>
+  </section>
+
+  <!-- 02 -->
+  <section id="s2" class="step panel" hidden>
+    <p class="tag">02 / WARD BALLOT</p><h2>WARD COUNCILLOR</h2>
+    <p class="sub">Select ONE candidate to represent your ward. Listed in official ballot draw order.</p>
+    <input id="wardSearch" class="field" type="search" placeholder="Search candidate or party name…" aria-label="Search candidates">
+    <div id="wardList"></div>
+    <p id="wardSel" class="sel" role="status"></p>
+    <div class="row"><button id="wardClear" class="btn ghost">Clear selection</button><button id="wardNext" class="btn" disabled>Next: Ballot 2 of 2 →</button></div>
+  </section>
+
+  <!-- 03 -->
+  <section id="s3" class="step panel" hidden>
+    <p class="tag">03 / PARTY BALLOT</p><h2>MUNICIPAL COUNCIL (PR PARTY VOTE)</h2>
+    <p class="sub">Select ONE political party for representation on the council. Local municipalities outside metros also show a third ballot.</p>
+    <input id="prSearch" class="field" type="search" placeholder="Search political party name or acronym…" aria-label="Search parties">
+    <div id="prList"></div>
+    <p id="prSel" class="sel" role="status"></p>
+    <div class="row"><button id="prClear" class="btn ghost">Clear selection</button><button id="prNext" class="btn" disabled>Review final ballots →</button></div>
+  </section>
+
+  <!-- 04 -->
+  <section id="s4" class="step panel" hidden>
+    <p class="tag">04 / REVIEW</p><h2>CONFIRM YOUR CHOICES</h2>
+    <p class="sub">Once submitted, your vote cannot be changed or traced to you.</p>
+    <h3 class="sc">1. WARD COUNCILLOR BALLOT</h3>
+    <div class="rev"><p id="revWard"></p><button id="chWard" class="btn ghost">Change vote</button></div>
+    <h3 class="sc">2. MUNICIPAL COUNCIL PR BALLOT</h3>
+    <div class="rev"><p id="revPr"></p><button id="chPr" class="btn ghost">Change vote</button></div>
+    <label class="check"><input id="confirmBox" type="checkbox"> I confirm these choices reflect my independent mandate.</label>
+    <p id="sealMsg" role="status" class="msg"></p>
+    <button id="seal" class="btn" disabled>🗳️ Seal and submit vote to ballot box</button>
+  </section>
+
+  <!-- 05 -->
+  <section id="s5" class="step panel" hidden>
+    <p class="tag">05 / RECEIPT</p>
+    <div class="done"><span class="stamp" aria-hidden="true">✓</span><h2>VOTE CAST AND SEALED</h2>
+    <p id="rcptBox">Your ballots have been encrypted and deposited into the digital ballot box.</p></div>
+    <h3 class="sc">DIGITAL THUMB INK AND VERIFICATION RECEIPT</h3>
+    <dl><dt>Voters' roll</dt><dd>MARKED AS VOTED (prevents re-voting)</dd><dt>Timestamp</dt><dd id="rcptTime"></dd><dt>Audit hash</dt><dd id="rcptHash" class="hash"></dd></dl>
+    <p class="hint">Confirms your vote was counted without revealing your choices.</p>
+    <div class="row"><button id="saveRcpt" class="btn ghost">💾 Save receipt</button><button id="shareBadge" class="btn ghost">🏅 Share "I Voted" badge</button></div>
+    <p class="foot2"><a id="verifyLink" href="#" target="_blank" rel="noopener">Check the published results on the website</a></p>
+    <button id="home" class="btn">Return to home screen</button>
+  </section>
+</main>
+
+<footer class="foot"><span>Independent Mandate · Digital ballot demonstration</span><span>Need help? <a id="siteLink" href="#" target="_blank" rel="noopener">Visit our website</a> <button id="installBtn" class="link" hidden>Install this app</button></span></footer>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
